@@ -13,7 +13,7 @@ struct Node {
 
 struct Node* head = NULL;
 
-// FIX 1: Helper function to clear the input buffer after scanf
+// Helper function to clear the input buffer after scanf
 // This prevents leftover '\n' characters from breaking fgets
 void clearInputBuffer() {
     int c;
@@ -28,12 +28,10 @@ void addbooking() {
     }
 
     printf("Enter Booking ID: ");
-    // FIX 2: Added ampersand (&)
     scanf("%d", &Newnode->booking_ID);
     clearInputBuffer(); // Clear the '\n' left by scanf
 
     printf("Enter Name: ");
-    // FIX 3: Replaced scanf("%s") with fgets for safety
     fgets(Newnode->Name, 50, stdin);
     Newnode->Name[strcspn(Newnode->Name, "\n")] = 0; // Remove trailing newline from fgets
 
@@ -46,7 +44,6 @@ void addbooking() {
     Newnode->CheckOutDate[strcspn(Newnode->CheckOutDate, "\n")] = 0;
 
     printf("Enter Room Number: ");
-    // FIX 4: Added ampersand (&)
     scanf("%d", &Newnode->room_Number);
     clearInputBuffer();
 
@@ -73,7 +70,6 @@ void displaybooking() {
     }
 }
 
-// FIX 5: Added the missing Search function
 void searchbooking(int id) {
     struct Node* Current = head;
     while (Current != NULL && Current->booking_ID != id) {
@@ -124,7 +120,6 @@ void updatedetails(int id) {
 
     printf("Enter the new details for Booking ID %d:\n", id);
     printf("Enter Name: ");
-    // FIX 6: Also fixed input safety here
     clearInputBuffer(); // Clear any pending newlines
     fgets(Current->Name, 50, stdin);
     Current->Name[strcspn(Current->Name, "\n")] = 0;
@@ -138,14 +133,12 @@ void updatedetails(int id) {
     Current->CheckOutDate[strcspn(Current->CheckOutDate, "\n")] = 0;
 
     printf("Enter Room Number: ");
-    // FIX 7: Added ampersand (&)
     scanf("%d", &Current->room_Number);
     clearInputBuffer();
 
     printf("Booking ID %d updated successfully.\n", id);
 }
 
-// FIX 8: Added this function to free all memory
 void freeAllBookings() {
     struct Node* Current = head;
     struct Node* nextNode = NULL;
@@ -164,10 +157,10 @@ int main() {
         printf("\n--- Hotel Management System ---\n");
         printf("1. Add Booking\n");
         printf("2. Display All Bookings\n");
-        printf("3. Search for Booking\n"); // FIX 9: Added to menu
+        printf("3. Search for Booking\n");
         printf("4. Delete Booking\n");
         printf("5. Update Booking Details\n");
-        printf("6. Exit\n"); // FIX 10: Changed Exit to 6
+        printf("6. Exit\n");
         printf("Enter your choice: ");
 
         if (scanf("%d", &choice) != 1) {
@@ -183,7 +176,7 @@ int main() {
             case 2:
                 displaybooking();
                 break;
-            case 3: // FIX 11: Added case for search
+            case 3: 
                 printf("Enter Booking ID to search: ");
                 scanf("%d", &id);
                 searchbooking(id);
@@ -198,7 +191,7 @@ int main() {
                 scanf("%d", &id);
                 updatedetails(id);
                 break;
-            case 6: // FIX 12: Call the free memory function before exiting
+            case 6:
                 freeAllBookings();
                 exit(0);
             default:
